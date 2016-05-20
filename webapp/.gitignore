@@ -1,0 +1,16 @@
+#OS junk files
+[Tt]humbs.db
+*.DS_Store
+
+#root soruce and config files
+data/
+target/
+etc/
+.idea/
+*.log
+*.log.1
+.svn
+*.sublime-project
+*.sublime-workspace
+www-programming.iml
+nb-configuration.xml
