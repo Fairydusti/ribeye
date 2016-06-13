@@ -82,15 +82,17 @@ http://www.springframework.org/schema/security/spring-security.xsd">
                        access="hasAnyRole('ROLE_SUPERUSER')" />
 
 
-        <!-- THSI MUST BE CHANGED TO PRODUCTION SYSTEM -->
+        <!-- This MUST BE CHANGED TO PRODUCTION SYSTEM -->
         <intercept-url pattern="/account/**"
-                       access="hasAnyRole('ROLE_USER','ROLE_SUPERUSER','ROLE_ANONYMOUS')" />
+                       access="hasAnyRole('ROLE_USER','ROLE_SUPERUSER')" />
 
-        <!-- THSI MUST BE CHANGED TO PRODUCTION SYSTEM -->
+        <!-- This MUST BE CHANGED TO PRODUCTION SYSTEM -->
         <intercept-url pattern="/file/**"
                        access="hasAnyRole('ROLE_SUPERUSER')" />
 
-
+        <!-- ENNAKKOTEHTÄVÄ-->
+        <intercept-url pattern="/deck/**"
+                       access="hasAnyRole('ROLE_ANONYMOUS','ROLE_GUEST')" />
         <!--
         any other url requires superuser privileges
         this should be denied from all as any url should be mentioned above.
