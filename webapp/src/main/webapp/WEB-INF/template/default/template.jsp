@@ -31,7 +31,7 @@
         <tiles:insertAttribute name="header" />
         <div class="content content-row">
             <tiles:insertAttribute name="menu" />
-
+            
 
             <tiles:insertTemplate template="${bodyTemplate}" />
         </div>

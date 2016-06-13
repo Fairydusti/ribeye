@@ -52,12 +52,12 @@
               <a href="${accListUrl}"><spring:message code="header.menu.accounts" text="Accounts" /></a>
             </li>
 
-<%--
+
             <li>
-                <spring:url value="/autocomplete/view" var="acUrl" htmlEscape="true"/>
-                <a href="${acUrl}">Autocomplete</a>
-            </li>
---%>
+                           <spring:url value="/deck" var="deckUrl" htmlEscape="true"/>
+                           <a href="${deckUrl}">Deck</a>
+                       </li>
+
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <spring:message code="header.menu.projects" text="Projects" />

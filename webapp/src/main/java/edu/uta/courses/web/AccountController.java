@@ -13,10 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by me on 21.2.2015.
@@ -32,7 +29,7 @@ public class AccountController {
 
 
     @RequestMapping( value = {"/", ""})
-    public String account(Model model) {
+    public String account(@ModelAttribute("form") AccountEditForm form, Model model) {
         model.addAttribute("account", "");
         // can not do this anymore! User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String name;
@@ -58,6 +55,48 @@ public class AccountController {
 
         model.addAttribute("username", name);
         return "account";
+    }
+    @RequestMapping(value={"/update"}, method= RequestMethod.GET)
+    public String updateAccountGet(@ModelAttribute("form") AccountEditForm form, Model model){
+            try {
+                WwwUser wUser = UserUtil.getWwwUser();
+                form.setUserName(wUser.getUsername());
+            } catch (Exception e) {
+              /* no op BUT REMEMBER, there is static user service too, those ARE instances of
+               org.springframework.security.core.userdetails.User
+               */
+                logger.error("Trying to get WwwUser but the user is not such user?");
+            }
+        return "/account/update";
+    }
+
+    @RequestMapping( value = "/update", method = RequestMethod.POST)
+    public String changeAccount( @ModelAttribute("form") AccountEditForm form, Model model) {
+        String name;
+        String errormessage;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            UserDetails user = (UserDetails) auth.getPrincipal();
+            name = form.getUserName();
+        } else {
+            // User is actually anonymous, so is not logged in.
+            name = (String)auth.getPrincipal();
+            errormessage = "You are not user: " + name;
+            return errormessage;
+        }
+
+        // OR check if the user is instance if WwwUser...?
+        try {
+            WwwUser wUser = UserUtil.getWwwUser();
+            wUser.setUsername(name);
+        } catch (Exception e) {
+          /* no op BUT REMEMBER, there is static user service too, those ARE instances of
+           org.springframework.security.core.userdetails.User
+           */
+            logger.error("Trying to get WwwUser but the user is not such user?");
+        }
+        return "redirect:/account";
+
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)

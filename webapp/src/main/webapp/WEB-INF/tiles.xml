@@ -76,4 +76,10 @@ https://tiles.apache.org/framework/tutorial/advanced/nesting-extending.html
     <definition name="/error/*" extends="base.template1">
         <put-attribute name="bodyTemplate" value="/WEB-INF/jsp/error/{1}.jsp" />
     </definition>
+
+    <!-- ENNAKKOTEHTÄVÄ-->
+    <definition name="/deck/*"  extends="base.template1">
+        <put-attribute name="bodyTemplate" value="/WEB-INF/jsp/deck/{1}.jsp" />
+    </definition>
+
 </tiles-definitions>

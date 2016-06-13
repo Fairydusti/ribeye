@@ -78,10 +78,11 @@
                             <input type="hidden" ng-model="ctrl.project.projectId" />
                               <label class="col-md-2 control-lable" for="projectName">Name</label>
                               <div class="col-md-7">
-                                  <input type="text" ng-model="ctrl.project.projectName" id="projectName" class="projectName form-control input-sm" placeholder="Enter project name" required ng-minlength="1"/>
+                                  <input type="text" ng-model="ctrl.project.projectName" id="projectName" class="projectName form-control input-sm" placeholder="Enter project name" required ng-minlength="1" ng-maxlength='20'/>
                                   <div class="has-error" ng-show="projectForm.$dirty">
                                       <span ng-show="projectForm.projectName.$error.required">This is a required field</span>
                                       <span ng-show="projectForm.projectName.$error.minlength">Minimum length required is 3</span>
+                                      <span ng-show="projectForm.projectName.$error.maxlength">Minimum length required is 20</span>
                                       <span ng-show="projectForm.projectName.$invalid">This field is invalid </span>
                                   </div>
                               </div>
