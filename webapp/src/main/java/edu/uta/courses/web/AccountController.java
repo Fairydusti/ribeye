@@ -58,7 +58,17 @@ public class AccountController {
     }
     @RequestMapping(value={"/update"}, method= RequestMethod.GET)
     public String updateAccountGet(@ModelAttribute("form") AccountEditForm form, Model model){
-            try {
+            String name ="";
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (!(auth instanceof AnonymousAuthenticationToken)) {
+                UserDetails user = (UserDetails) auth.getPrincipal();
+                name = user.getUsername();
+            } else {
+                // User is actually anonymous, so is not logged in.
+                name = (String)auth.getPrincipal();
+            }
+
+        try {
                 WwwUser wUser = UserUtil.getWwwUser();
                 form.setUserName(wUser.getUsername());
             } catch (Exception e) {
@@ -67,6 +77,7 @@ public class AccountController {
                */
                 logger.error("Trying to get WwwUser but the user is not such user?");
             }
+            model.addAttribute("user", personRepository.findByUsername(name));
         return "/account/update";
     }
 
@@ -87,8 +98,12 @@ public class AccountController {
 
         // OR check if the user is instance if WwwUser...?
         try {
-            WwwUser wUser = UserUtil.getWwwUser();
-            wUser.setUsername(name);
+          /*Short cut for updating own username*/
+            //  WwwUser wUser = UserUtil.getWwwUser();
+            Long uId = form.getUserId();
+            User user = personRepository.findById(uId);
+            user.setUserName(form.getUserName());
+            personRepository.update(user);
         } catch (Exception e) {
           /* no op BUT REMEMBER, there is static user service too, those ARE instances of
            org.springframework.security.core.userdetails.User

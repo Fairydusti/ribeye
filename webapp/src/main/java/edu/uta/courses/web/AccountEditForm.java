@@ -9,12 +9,19 @@ public class AccountEditForm {
     @NotEmpty
     private String userName;
 
+    @NotEmpty
+    private Long userId;
+
     public String getUserName() {
         return userName;
     }
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public Long getUserId() {
+        return userId;
     }
 
 }

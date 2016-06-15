@@ -3,6 +3,8 @@ package edu.uta.courses.web;
 import edu.uta.courses.repository.PersonRepository;
 import edu.uta.courses.repository.domain.Constants;
 import edu.uta.courses.repository.domain.User;
+import edu.uta.courses.repository.domain.WwwUser;
+import edu.uta.courses.service.impl.UserServiceImpl;
 import edu.uta.courses.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,6 +48,24 @@ public class UserController {
         model.addAttribute("currentUser", user);
         return "/user/show";
     }
-
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    public String updatePersonOpen(@ModelAttribute("form") UserCreateForm form, Model model) {
+        model.addAttribute("users", personRepository.findUsers());
+        return "/user/update";
+    }
+    /*Should be put request*/
+    @RequestMapping(value = {"/update"}, method = RequestMethod.POST)
+    public String updatePersonCommit(@ModelAttribute("form") UserCreateForm form, Model model) {
+        String newUserName = form.getUserName();
+        /*Let's do some bad code, should create WwwUser and then convert it to user, but
+        * ain't nobody got time for dat'
+        * */
+        Long uId = form.getUserId();
+        User user = personRepository.findById(uId);
+        user.setUserName(newUserName);
+        personRepository.update(user);
+        model.addAttribute("currentUser", user);
+        return "/user/show";
+    }
 
 }
