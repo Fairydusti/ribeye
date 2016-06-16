@@ -13,15 +13,19 @@ public class AccountEditForm {
     private Long userId;
 
     public String getUserName() {
-        return userName;
+        return this.userName;
     }
 
     public void setUserName(String userName) {
         this.userName = userName;
     }
 
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     public Long getUserId() {
-        return userId;
+        return this.userId;
     }
 
 }
